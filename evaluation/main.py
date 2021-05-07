@@ -3,9 +3,9 @@ import os
 import pathlib
 import subprocess
 from dataclasses import dataclass
+from datetime import datetime
 
 import dotenv
-import time
 
 dotenv.load_dotenv()
 
@@ -71,9 +71,8 @@ if __name__ == "__main__":
     k6Env["CONSTANT_TIME"] = config.CONSTANT_TIME
 
     # Set a dynamic output path.
-    outputPath = (
-        str(pathlib.Path(__file__).parent.absolute()) + f"/out/{time.time()}.json"
-    )
+    now = datetime.now().strftime("%Y-%m-%d.%H%M%S.%f")
+    outputPath = str(pathlib.Path(__file__).parent.absolute()) + f"/out/{now}.json"
     k6Env["K6_OUTPUT_PATH"] = outputPath
 
     k6Process = subprocess.run(
