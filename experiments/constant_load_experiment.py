@@ -42,7 +42,7 @@ class ConstantLoadExperiment(Experiment):
             if not api_client.empty_cart(self.config).ok:
                 print(f"unable to empty cart")
                 exit()
-            if not api_client.seed_cart(self.config, 400000).ok:
+            if not api_client.seed_cart(self.config, 200000).ok:
                 print(f"unable to seed cart")
                 exit()
             if not api_client.set_dimming_mode(self.config, self.dimming_mode).ok:
