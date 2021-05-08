@@ -2,7 +2,6 @@ import json
 import os
 import subprocess
 
-import sys
 from progressbar import progressbar
 
 import api_client
@@ -66,29 +65,21 @@ class ConstantLoadExperiment(Experiment):
             k6_env["CONSTANT_TIME"] = self.duration
             k6_env["K6_OUTPUT_PATH"] = output_path
 
-            k6_process = subprocess.Popen(
-                ["k6", "run", "dist/constantLoad.js"],
+            k6_process = subprocess.run(
+                ["k6", "run", "dist/constantLoadExternallyOrchestrated.js"],
                 env=k6_env,
                 cwd=self.config.ABS_LOAD_TESTING_DIRECTORY,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                capture_output=True,
+                shell=True,
             )
-
-            while True:
-                out = str(k6_process.stdout.read(1))
-                if out == "" and k6_process.poll() is not None:
-                    break
-                if out != "":
-                    sys.stdout.write(out)
-                    sys.stdout.flush()
 
             if k6_process.returncode != 0:
                 print(f"unable to run k6, stderr =\n\t{k6_process.stderr}")
                 exit()
 
-            # with open(output_path, "r") as output_file:
-            #     metrics = json.load(output_file)
-            #     iteration_metrics.append(metrics)
+            with open(output_path, "r") as output_file:
+                metrics = json.load(output_file)
+                iteration_metrics.append(metrics)
 
-        # with open(generate_output_path(suffix="constant-load"), "w") as output_file:
-        #     json.dump(iteration_metrics, output_file)
+        with open(generate_output_path(suffix="constant-load"), "w") as output_file:
+            json.dump(iteration_metrics, output_file)
