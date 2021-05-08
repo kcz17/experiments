@@ -66,7 +66,7 @@ class ConstantLoadExperiment(Experiment):
             k6_env["K6_OUTPUT_PATH"] = output_path
 
             k6_process = subprocess.run(
-                ["ulimit -n 8192 && k6", "run", "dist/constantLoadExternallyOrchestrated.js"],
+                ["ulimit -n 8192; k6 run dist/constantLoadExternallyOrchestrated.js"],
                 env=k6_env,
                 cwd=self.config.ABS_LOAD_TESTING_DIRECTORY,
                 capture_output=True,
