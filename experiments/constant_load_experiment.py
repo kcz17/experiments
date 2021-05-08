@@ -50,11 +50,11 @@ class ConstantLoadExperiment(Experiment):
                 exit()
 
             if self.use_component_weightings:
-                if not api_client.set_component_weightings().ok:
+                if not api_client.set_component_weightings(self.config).ok:
                     print(f"unable to set component weightings")
                     exit()
             else:
-                if not api_client.clear_component_weightings().ok:
+                if not api_client.clear_component_weightings(self.config).ok:
                     print(f"unable to clear component weightings")
                     exit()
 
