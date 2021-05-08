@@ -36,5 +36,5 @@ def seed_cart(config: Config, rows: int):
 )
 def set_dimming_mode(config: Config, mode: str):
     return requests.post(
-        f"http://{config.KUBEDIM_HOST}:{config.ADMIN_PORT}/mode", data={"Mode": mode}
+        f"http://{config.KUBEDIM_HOST}:{config.ADMIN_PORT}/mode", json={"Mode": mode}
     )
