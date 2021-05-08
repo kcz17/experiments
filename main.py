@@ -26,6 +26,7 @@ if __name__ == "__main__":
         f"\t[6] Constant load, dimming with component weightings, 300 users, 30 mins, 5 repeats"
     )
     print(f"\t[7] Constant load, dimming with profiling, 300 users, 30 mins, 5 repeats")
+    print(f"\t[8] [TO REMOVE] Constant load, baseline dimming, 300 users, 5 mins, no repeats")
     choice = input("\nEnter the number for the experiment you want to run: ")
 
     experiment = Experiment()
@@ -35,24 +36,46 @@ if __name__ == "__main__":
         experiment = SaturationExperiment(config, is_dimming_enabled=True)
     elif int(choice) == 3:
         experiment = ConstantLoadExperiment(
-            config, iterations=1, dimming_mode=api_client.DIMMING_MODE_DIMMING
+            config,
+            num_users=300,
+            duration="30m",
+            iterations=1,
+            dimming_mode=api_client.DIMMING_MODE_DIMMING,
         )
     elif int(choice) == 4:
         raise NotImplementedError()
     elif int(choice) == 5:
         experiment = ConstantLoadExperiment(
-            config, iterations=5, dimming_mode=api_client.DIMMING_MODE_DIMMING
+            config,
+            num_users=300,
+            duration="30m",
+            iterations=5,
+            dimming_mode=api_client.DIMMING_MODE_DIMMING,
         )
     elif int(choice) == 6:
         experiment = ConstantLoadExperiment(
             config,
+            num_users=300,
+            duration="30m",
             iterations=5,
             dimming_mode=api_client.DIMMING_MODE_DIMMING,
             use_component_weightings=True,
         )
     elif int(choice) == 7:
         experiment = ConstantLoadExperiment(
-            config, iterations=5, dimming_mode=api_client.DIMMING_MODE_PROFILING
+            config,
+            num_users=300,
+            duration="30m",
+            iterations=5,
+            dimming_mode=api_client.DIMMING_MODE_PROFILING,
+        )
+    elif int(choice) == 8:
+        experiment = ConstantLoadExperiment(
+            config,
+            num_users=300,
+            duration="5m",
+            iterations=1,
+            dimming_mode=api_client.DIMMING_MODE_DIMMING,
         )
     else:
         print("Invalid choice entered. Exiting.")

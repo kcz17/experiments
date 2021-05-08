@@ -10,20 +10,20 @@ from experiments.experiment import Experiment
 from helpers import generate_output_path
 
 
-NUM_USERS = 300
-DURATION = "30m"
-
-
 class ConstantLoadExperiment(Experiment):
     def __init__(
         self,
         config: Config,
+        num_users: int,
+        duration: str,
         iterations: int,
         dimming_mode: str,
         use_component_weightings: bool = False,
     ):
         super().__init__()
         self.config = config
+        self.num_users = num_users
+        self.duration = duration
         self.iterations = iterations
         self.dimming_mode = dimming_mode
         self.use_component_weightings = use_component_weightings
@@ -36,7 +36,7 @@ class ConstantLoadExperiment(Experiment):
         k6_env["K6_HOST"] = self.config.KUBEDIM_HOST
         k6_env["K6_PORT"] = self.config.DIMMER_PORT
 
-        vu_metrics = {}
+        iteration_metrics = []
 
         for _ in progressbar(range(self.iterations), redirect_stdout=True):
             if not api_client.empty_cart(self.config).ok:
@@ -60,9 +60,9 @@ class ConstantLoadExperiment(Experiment):
 
             output_path = generate_output_path(suffix="k6")
 
-            k6_env["MAX_VUS"] = str(NUM_USERS)
+            k6_env["MAX_VUS"] = str(self.num_users)
             k6_env["RAMP_UP_TIME"] = "10s"
-            k6_env["CONSTANT_TIME"] = DURATION
+            k6_env["CONSTANT_TIME"] = self.duration
             k6_env["K6_OUTPUT_PATH"] = output_path
 
             k6_process = subprocess.run(
@@ -78,8 +78,7 @@ class ConstantLoadExperiment(Experiment):
 
             with open(output_path, "r") as output_file:
                 metrics = json.load(output_file)
+                iteration_metrics.append(metrics)
 
-        with open(
-            generate_output_path(suffix="dimmer-disabled-saturation"), "w"
-        ) as output_file:
-            json.dump(vu_metrics, output_file)
+        with open(generate_output_path(suffix="constant-load"), "w") as output_file:
+            json.dump(iteration_metrics, output_file)
