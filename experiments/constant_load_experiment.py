@@ -75,10 +75,10 @@ class ConstantLoadExperiment(Experiment):
             )
 
             while True:
-                out = k6_process.stdout.read(1)
-                if out == '' and k6_process.poll() is not None:
+                out = str(k6_process.stdout.read(1))
+                if out == "" and k6_process.poll() is not None:
                     break
-                if out != '':
+                if out != "":
                     sys.stdout.write(out)
                     sys.stdout.flush()
 
