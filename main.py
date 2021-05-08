@@ -1,6 +1,8 @@
 import subprocess
 
+import api_client
 from config import Config
+from experiments.constant_load_experiment import ConstantLoadExperiment
 from experiments.experiment import Experiment
 from experiments.saturation_experiment import SaturationExperiment
 
@@ -16,7 +18,14 @@ if __name__ == "__main__":
 
     print(f"\nAvailable experiments:")
     print(f"\t[1] Gather data to infer saturation with dimmer is disabled")
-    print(f"\t[2] Gather data to infer saturation with dimmer is enabled")
+    print(f"\t[2] Gather data to infer saturation with baseline dimming")
+    print(f"\t[3] Constant load, baseline dimming, 300 users, 30 mins, no repeats")
+    print(f"\t[4] Flash crowd, baseline dimming, 300 users, 30 mins, no repeats")
+    print(f"\t[5] Constant load, baseline dimming, 300 users, 30 mins, 5 repeats")
+    print(
+        f"\t[6] Constant load, dimming with component weightings, 300 users, 30 mins, 5 repeats"
+    )
+    print(f"\t[7] Constant load, dimming with profiling, 300 users, 30 mins, 5 repeats")
     choice = input("\nEnter the number for the experiment you want to run: ")
 
     experiment = Experiment()
@@ -24,6 +33,27 @@ if __name__ == "__main__":
         experiment = SaturationExperiment(config, is_dimming_enabled=False)
     elif int(choice) == 2:
         experiment = SaturationExperiment(config, is_dimming_enabled=True)
+    elif int(choice) == 3:
+        experiment = ConstantLoadExperiment(
+            config, iterations=1, dimming_mode=api_client.DIMMING_MODE_DIMMING
+        )
+    elif int(choice) == 4:
+        raise NotImplementedError()
+    elif int(choice) == 5:
+        experiment = ConstantLoadExperiment(
+            config, iterations=5, dimming_mode=api_client.DIMMING_MODE_DIMMING
+        )
+    elif int(choice) == 6:
+        experiment = ConstantLoadExperiment(
+            config,
+            iterations=5,
+            dimming_mode=api_client.DIMMING_MODE_DIMMING,
+            use_component_weightings=True,
+        )
+    elif int(choice) == 7:
+        experiment = ConstantLoadExperiment(
+            config, iterations=5, dimming_mode=api_client.DIMMING_MODE_PROFILING
+        )
     else:
         print("Invalid choice entered. Exiting.")
         exit()

@@ -2,7 +2,6 @@ import json
 import os
 import subprocess
 
-import time
 from progressbar import progressbar
 
 import api_client
@@ -11,16 +10,23 @@ from experiments.experiment import Experiment
 from helpers import generate_output_path
 
 
-class SaturationExperiment(Experiment):
-    def __init__(self, config: Config, is_dimming_enabled: bool):
+NUM_USERS = 300
+DURATION = "30m"
+
+
+class ConstantLoadExperiment(Experiment):
+    def __init__(
+        self,
+        config: Config,
+        iterations: int,
+        dimming_mode: str,
+        use_component_weightings: bool = False,
+    ):
         super().__init__()
         self.config = config
-        self.is_dimming_enabled = is_dimming_enabled
-        self.dimming_mode = (
-            api_client.DIMMING_MODE_DIMMING
-            if is_dimming_enabled
-            else api_client.DIMMING_MODE_DISABLED
-        )
+        self.iterations = iterations
+        self.dimming_mode = dimming_mode
+        self.use_component_weightings = use_component_weightings
 
     def run(self):
         k6_env = os.environ.copy()
@@ -32,8 +38,7 @@ class SaturationExperiment(Experiment):
 
         vu_metrics = {}
 
-        for max_vus in progressbar(range(250, 400, 20), redirect_stdout=True):
-            print(f"\tStarting iteration with VUs = {max_vus}")
+        for _ in progressbar(range(self.iterations), redirect_stdout=True):
             if not api_client.empty_cart(self.config).ok:
                 print(f"unable to empty cart")
                 exit()
@@ -43,18 +48,21 @@ class SaturationExperiment(Experiment):
             if not api_client.set_dimming_mode(self.config, self.dimming_mode).ok:
                 print(f"unable to set dimming mode")
                 exit()
-            if self.is_dimming_enabled:
-                # We do not want to run baseline dimming with component
-                # weightings enabled.
+
+            if self.use_component_weightings:
+                if not api_client.set_component_weightings().ok:
+                    print(f"unable to set component weightings")
+                    exit()
+            else:
                 if not api_client.clear_component_weightings().ok:
                     print(f"unable to clear component weightings")
                     exit()
 
             output_path = generate_output_path(suffix="k6")
 
-            k6_env["MAX_VUS"] = str(max_vus)
-            k6_env["RAMP_UP_TIME"] = "20s"
-            k6_env["CONSTANT_TIME"] = "10m"
+            k6_env["MAX_VUS"] = str(NUM_USERS)
+            k6_env["RAMP_UP_TIME"] = "10s"
+            k6_env["CONSTANT_TIME"] = DURATION
             k6_env["K6_OUTPUT_PATH"] = output_path
 
             k6_process = subprocess.run(
@@ -70,9 +78,6 @@ class SaturationExperiment(Experiment):
 
             with open(output_path, "r") as output_file:
                 metrics = json.load(output_file)
-                vu_metrics[max_vus] = metrics["metrics"]["http_req_duration"]["values"]
-
-            time.sleep(10)
 
         with open(
             generate_output_path(suffix="dimmer-disabled-saturation"), "w"
