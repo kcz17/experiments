@@ -3,8 +3,8 @@ import requests as requests
 
 from config import Config
 
-DIMMING_MODE_DISABLED = "disabled"
-DIMMING_MODE_DIMMING = "dimming"
+DIMMING_MODE_DISABLED = "Disabled"
+DIMMING_MODE_DIMMING = "Dimming"
 
 
 @backoff.on_exception(
