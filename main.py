@@ -1,7 +1,7 @@
 import subprocess
 
 from config import Config
-from experiments import dimmer_disabled_saturation
+from experiments import Experiment, DimmerDisabledSaturation
 
 if __name__ == "__main__":
     config = Config()
@@ -13,7 +13,16 @@ if __name__ == "__main__":
     print(f"\tLOAD_TESTING_DIRECTORY: {config.LOAD_TESTING_DIRECTORY}")
     print(f"\t\twhich resolves to {config.ABS_LOAD_TESTING_DIRECTORY}")
 
-    input("\nPress Enter to continue or Ctrl + C to exit...\n")
+    print(f"\nAvailable experiments:")
+    print(f"\t[1] Gather data to infer saturation with dimmer is disabled")
+    choice = input("\nEnter the number for the experiment you want to run: ")
+
+    experiment = Experiment()
+    if int(choice) == 1:
+        experiment = DimmerDisabledSaturation(config)
+    else:
+        print("Invalid choice entered. Exiting.")
+        exit()
 
     if subprocess.call(["which", "k6"], stdout=subprocess.DEVNULL) != 0:
         print("The k6 binary is not installed. Please try again.")
@@ -38,4 +47,4 @@ if __name__ == "__main__":
         print(f"unable to run npx webpack, stderr =\n\t{webpackProcess.stderr}")
 
     print("Running experiment...")
-    dimmer_disabled_saturation(config)
+    experiment.run()
