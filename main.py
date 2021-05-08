@@ -1,7 +1,7 @@
 import subprocess
 
 from config import Config
-from experiments import Experiment, DimmerDisabledSaturation
+from experiments import Experiment, SaturationExperiment
 
 if __name__ == "__main__":
     config = Config()
@@ -15,11 +15,14 @@ if __name__ == "__main__":
 
     print(f"\nAvailable experiments:")
     print(f"\t[1] Gather data to infer saturation with dimmer is disabled")
+    print(f"\t[2] Gather data to infer saturation with dimmer is enabled")
     choice = input("\nEnter the number for the experiment you want to run: ")
 
     experiment = Experiment()
     if int(choice) == 1:
-        experiment = DimmerDisabledSaturation(config)
+        experiment = SaturationExperiment(config, is_dimming_enabled=False)
+    elif int(choice) == 2:
+        experiment = SaturationExperiment(config, is_dimming_enabled=True)
     else:
         print("Invalid choice entered. Exiting.")
         exit()

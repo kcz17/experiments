@@ -14,10 +14,15 @@ class Experiment:
         raise NotImplementedError()
 
 
-class DimmerDisabledSaturation(Experiment):
-    def __init__(self, config: Config):
+class SaturationExperiment(Experiment):
+    def __init__(self, config: Config, is_dimming_enabled: bool):
         super().__init__()
         self.config = config
+        self.dimming_mode = (
+            api_client.DIMMING_MODE_DIMMING
+            if is_dimming_enabled
+            else api_client.DIMMING_MODE_DISABLED
+        )
 
     def run(self):
         k6_env = os.environ.copy()
@@ -37,9 +42,7 @@ class DimmerDisabledSaturation(Experiment):
             if not api_client.seed_cart(self.config, 200000).ok:
                 print(f"unable to seed cart")
                 exit()
-            if not api_client.set_dimming_mode(
-                self.config, api_client.DIMMING_MODE_DISABLED
-            ).ok:
+            if not api_client.set_dimming_mode(self.config, self.dimming_mode).ok:
                 print(f"unable to set dimming mode")
                 exit()
 
