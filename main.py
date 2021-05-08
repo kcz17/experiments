@@ -6,7 +6,7 @@ from experiments.saturation_experiment import SaturationExperiment
 
 if __name__ == "__main__":
     config = Config()
-    print("Check the following provided configuration values before proceeding:")
+    print("Check the following provided environment variables before proceeding:")
     print(f"\tKUBEDIM_HOST: {config.KUBEDIM_HOST}")
     print(f"\tDIMMER_PORT: {config.DIMMER_PORT}")
     print(f"\tADMIN_PORT: {config.ADMIN_PORT}")
