@@ -32,7 +32,7 @@ class SaturationExperiment(Experiment):
 
         vu_metrics = {}
 
-        for max_vus in progressbar(range(150, 400, 20), redirect_stdout=True):
+        for max_vus in progressbar(range(200, 400, 10), redirect_stdout=True):
             print(f"\tStarting iteration with VUs = {max_vus}")
             if not api_client.empty_cart(self.config).ok:
                 print(f"unable to empty cart")
@@ -54,7 +54,7 @@ class SaturationExperiment(Experiment):
 
             k6_env["MAX_VUS"] = str(max_vus)
             k6_env["RAMP_UP_TIME"] = "20s"
-            k6_env["CONSTANT_TIME"] = "10m"
+            k6_env["CONSTANT_TIME"] = "4m"
             k6_env["K6_OUTPUT_PATH"] = output_path
 
             k6_process = subprocess.run(
