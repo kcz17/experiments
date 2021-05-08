@@ -17,14 +17,14 @@ def dimmer_disabled_saturation(config: Config):
 
     vu_metrics = {}
 
-    for maxVUs in range(200, 351, 20):
+    for max_vus in range(200, 351, 20):
         api_client.empty_cart(config)
         api_client.seed_cart(config, 200000)
         api_client.set_dimming_mode(config, api_client.DIMMING_MODE_DISABLED)
 
         output_path = generate_output_path(suffix="k6")
 
-        k6_env["MAX_VUS"] = str(maxVUs)
+        k6_env["MAX_VUS"] = str(max_vus)
         k6_env["RAMP_UP_TIME"] = "10s"
         k6_env["CONSTANT_TIME"] = "3m"
         k6_env["K6_OUTPUT_PATH"] = output_path
@@ -38,11 +38,11 @@ def dimmer_disabled_saturation(config: Config):
 
         if k6_process.returncode != 0:
             print(f"unable to run k6, stderr =\n\t{k6_process.stderr}")
+            exit()
 
-        print(k6_process.stdout)
-        with open(output_path, "r") as outputFile:
-            metrics = json.load(outputFile)
-            vu_metrics[maxVUs] = metrics["metrics"]["http_req_duration"]["values"]
+        with open(output_path, "r") as output_file:
+            metrics = json.load(output_file)
+            vu_metrics[max_vus] = metrics["metrics"]["http_req_duration"]["values"]
 
     with open(generate_output_path(suffix="dimmer-disabled-saturation"), "w") as output_file:
         json.dump(vu_metrics, output_file)
