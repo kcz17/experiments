@@ -58,15 +58,12 @@ class SaturationExperiment(Experiment):
             k6_env["K6_OUTPUT_PATH"] = output_path
 
             k6_process = subprocess.run(
-                ["k6", "run", "dist/constantLoadExternallyOrchestrated.js"],
+                ["ulimit -n 8192; k6 run dist/constantLoadExternallyOrchestrated.js"],
                 env=k6_env,
                 cwd=self.config.ABS_LOAD_TESTING_DIRECTORY,
                 capture_output=True,
+                shell=True,
             )
-            progressbar
-
-            while k6_process.poll() is None:
-                time.sleep(0.5)
 
             if k6_process.returncode != 0:
                 print(f"unable to run k6, stderr =\n\t{k6_process.stderr}")
