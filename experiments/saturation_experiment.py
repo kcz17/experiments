@@ -79,3 +79,5 @@ class SaturationExperiment(Experiment):
             generate_output_path(suffix="dimmer-disabled-saturation"), "w"
         ) as output_file:
             json.dump(vu_metrics, output_file)
+
+        print("Complete")

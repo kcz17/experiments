@@ -78,8 +78,19 @@ class ConstantLoadExperiment(Experiment):
                 exit()
 
             with open(output_path, "r") as output_file:
-                metrics = json.load(output_file)
+                k6_metrics = json.load(output_file)
+
+                metrics = {}
+                if "attrition" in k6_metrics["metrics"]:
+                    metrics["attrition"] = k6_metrics["metrics"]["attrition"]["values"]["count"]
+                if "items_checked_out" in k6_metrics["metrics"]:
+                    metrics["items_checked_out"] = k6_metrics["metrics"]["items_checked_out"]["values"]["count"]
+                if "recommendations_checked_out" in k6_metrics["metrics"]:
+                    metrics["recommendations_checked_out"] = k6_metrics["metrics"]["recommendations_checked_out"]["values"]["count"]
+
                 iteration_metrics.append(metrics)
 
         with open(generate_output_path(suffix="constant-load"), "w") as output_file:
             json.dump(iteration_metrics, output_file)
+        print("Complete:")
+        print(iteration_metrics)
