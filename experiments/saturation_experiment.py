@@ -37,7 +37,7 @@ class SaturationExperiment(Experiment):
             if not api_client.empty_cart(self.config).ok:
                 print(f"unable to empty cart")
                 exit()
-            if not api_client.seed_cart(self.config, 200000).ok:
+            if not api_client.seed_cart(self.config, 400000).ok:
                 print(f"unable to seed cart")
                 exit()
             if not api_client.set_dimming_mode(self.config, self.dimming_mode).ok:
@@ -63,6 +63,11 @@ class SaturationExperiment(Experiment):
                 cwd=self.config.ABS_LOAD_TESTING_DIRECTORY,
                 capture_output=True,
             )
+            progressbar
+
+            while k6_process.poll() is None:
+                time.sleep(0.5)
+
 
             if k6_process.returncode != 0:
                 print(f"unable to run k6, stderr =\n\t{k6_process.stderr}")
