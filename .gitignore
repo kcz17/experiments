@@ -1,4 +1,4 @@
 *.iml
 .ipynb_checkpoints/
 misc/.ipynb_checkpoints/
-evaluation/out/*
+out/*
