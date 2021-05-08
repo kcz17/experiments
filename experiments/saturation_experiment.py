@@ -32,7 +32,7 @@ class SaturationExperiment(Experiment):
 
         vu_metrics = {}
 
-        for max_vus in progressbar(range(250, 400, 20), redirect_stdout=True):
+        for max_vus in progressbar(range(150, 400, 20), redirect_stdout=True):
             print(f"\tStarting iteration with VUs = {max_vus}")
             if not api_client.empty_cart(self.config).ok:
                 print(f"unable to empty cart")
