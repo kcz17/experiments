@@ -13,7 +13,9 @@ DIMMING_MODE_DIMMING = "dimming"
     max_tries=3,
 )
 def empty_cart(config: Config):
-    return requests.delete(f"http://{config.KUBEDIM_HOST}:{config.CARTS_RESEEDER_PORT}/db")
+    return requests.delete(
+        f"http://{config.KUBEDIM_HOST}:{config.CARTS_RESEEDER_PORT}/db"
+    )
 
 
 @backoff.on_exception(
