@@ -1,7 +1,8 @@
 import subprocess
 
 from config import Config
-from experiments import Experiment, SaturationExperiment
+from experiments.experiment import Experiment
+from experiments.saturation_experiment import SaturationExperiment
 
 if __name__ == "__main__":
     config = Config()

@@ -6,12 +6,8 @@ from progressbar import progressbar
 
 import api_client
 from config import Config
+from experiments.experiment import Experiment
 from helpers import generate_output_path
-
-
-class Experiment:
-    def run(self):
-        raise NotImplementedError()
 
 
 class SaturationExperiment(Experiment):
