@@ -16,13 +16,6 @@ if __name__ == "__main__":
     print(f"\tLOAD_TESTING_DIRECTORY: {config.LOAD_TESTING_DIRECTORY}")
     print(f"\t\twhich resolves to {config.ABS_LOAD_TESTING_DIRECTORY}")
 
-    ulimitProcess = subprocess.run(
-        ["ulimit", "-n"], cwd=config.ABS_LOAD_TESTING_DIRECTORY, capture_output=True
-    )
-    print(
-        f"\nAlso ensure that the ulimit is high enough:\n\tulimit -n = {ulimitProcess.stdout}"
-    )
-
     print(f"\nAvailable experiments:")
     print(f"\t[1] Gather data to infer saturation with dimmer is disabled")
     print(f"\t[2] Gather data to infer saturation with baseline dimming")
