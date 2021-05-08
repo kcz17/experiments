@@ -2,4 +2,4 @@ python-dotenv==0.17.1
 black==20.8b1
 backoff==1.10.0
 requests==2.25.1
-
+progressbar2==3.53.1

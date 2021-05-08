@@ -24,7 +24,7 @@ def empty_cart(config: Config):
     max_tries=3,
 )
 def seed_cart(config: Config, rows: int):
-    return requests.post(
+    return requests.put(
         f"http://{config.KUBEDIM_HOST}:{config.CARTS_RESEEDER_PORT}/db/{rows}"
     )
 

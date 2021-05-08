@@ -2,6 +2,8 @@ import json
 import os
 import subprocess
 
+from progressbar import progressbar
+
 import api_client
 from config import Config
 from helpers import generate_output_path
@@ -27,10 +29,19 @@ class DimmerDisabledSaturation(Experiment):
 
         vu_metrics = {}
 
-        for max_vus in range(200, 351, 20):
-            api_client.empty_cart(self.config)
-            api_client.seed_cart(self.config, 200000)
-            api_client.set_dimming_mode(self.config, api_client.DIMMING_MODE_DISABLED)
+        for max_vus in progressbar(range(150, 351, 20), redirect_stdout=True):
+            print(f"\tStarting iteration with VUs = {max_vus}")
+            if not api_client.empty_cart(self.config).ok:
+                print(f"unable to empty cart")
+                exit()
+            if not api_client.seed_cart(self.config, 200000).ok:
+                print(f"unable to seed cart")
+                exit()
+            if not api_client.set_dimming_mode(
+                self.config, api_client.DIMMING_MODE_DISABLED
+            ).ok:
+                print(f"unable to set dimming mode")
+                exit()
 
             output_path = generate_output_path(suffix="k6")
 
