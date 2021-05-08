@@ -16,6 +16,13 @@ if __name__ == "__main__":
     print(f"\tLOAD_TESTING_DIRECTORY: {config.LOAD_TESTING_DIRECTORY}")
     print(f"\t\twhich resolves to {config.ABS_LOAD_TESTING_DIRECTORY}")
 
+    ulimitProcess = subprocess.run(
+        ["ulimit", "-n"], cwd=config.ABS_LOAD_TESTING_DIRECTORY, capture_output=True
+    )
+    print(
+        f"\nAlso ensure that the ulimit is high enough:\n\tulimit -n = {ulimitProcess.stdout}"
+    )
+
     print(f"\nAvailable experiments:")
     print(f"\t[1] Gather data to infer saturation with dimmer is disabled")
     print(f"\t[2] Gather data to infer saturation with baseline dimming")
@@ -26,7 +33,9 @@ if __name__ == "__main__":
         f"\t[6] Constant load, dimming with component weightings, 300 users, 30 mins, 5 repeats"
     )
     print(f"\t[7] Constant load, dimming with profiling, 300 users, 30 mins, 5 repeats")
-    print(f"\t[8] [TO REMOVE] Constant load, baseline dimming, 300 users, 5 mins, no repeats")
+    print(
+        f"\t[8] [TO REMOVE] Constant load, baseline dimming, 300 users, 5 mins, no repeats"
+    )
     choice = input("\nEnter the number for the experiment you want to run: ")
 
     experiment = Experiment()
