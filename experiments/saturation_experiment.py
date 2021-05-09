@@ -32,7 +32,18 @@ class SaturationExperiment(Experiment):
 
         vu_metrics = {}
 
-        for max_vus in progressbar(range(200, 400, 10), redirect_stdout=True):
+        # Range for dimming mode disabled.
+        min = 220
+        max = 310
+        step = 10
+
+        # Range for dimming mode enabled.
+        if self.is_dimming_enabled:
+            min = 260
+            max = 500
+            step = 20
+
+        for max_vus in progressbar(range(min, max, step), redirect_stdout=True):
             print(f"\tStarting iteration with VUs = {max_vus}")
             if not api_client.empty_cart(self.config).ok:
                 print(f"unable to empty cart")
