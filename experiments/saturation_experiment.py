@@ -33,14 +33,14 @@ class SaturationExperiment(Experiment):
         vu_metrics = {}
 
         # Range for dimming mode disabled.
-        min = 220
-        max = 310
+        min = 230
+        max = 331
         step = 10
 
         # Range for dimming mode enabled.
         if self.is_dimming_enabled:
             min = 260
-            max = 500
+            max = 501
             step = 20
 
         for max_vus in progressbar(range(min, max, step), redirect_stdout=True):
