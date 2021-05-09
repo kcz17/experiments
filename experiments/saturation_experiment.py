@@ -46,7 +46,7 @@ class SaturationExperiment(Experiment):
             if self.is_dimming_enabled:
                 # We do not want to run baseline dimming with component
                 # weightings enabled.
-                if not api_client.clear_component_weightings().ok:
+                if not api_client.clear_component_weightings(self.config).ok:
                     print(f"unable to clear component weightings")
                     exit()
 
