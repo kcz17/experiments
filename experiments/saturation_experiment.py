@@ -69,6 +69,11 @@ class SaturationExperiment(Experiment):
                 print(f"unable to run k6, stderr =\n\t{k6_process.stderr}")
                 exit()
 
+            # Reset the dimming mode so the response time graph does not taper.
+            if not api_client.set_dimming_mode(self.config, self.dimming_mode).ok:
+                print(f"unable to set dimming mode")
+                exit()
+
             with open(output_path, "r") as output_file:
                 metrics = json.load(output_file)
                 vu_metrics[max_vus] = metrics["metrics"]["http_req_duration"]["values"]
