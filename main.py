@@ -21,14 +21,12 @@ if __name__ == "__main__":
     print(f"\t[2] Gather data to infer saturation with baseline dimming")
     print(f"\t[3] Constant load, baseline dimming, 280 users, 30 mins, no repeats")
     print(f"\t[4] Flash crowd, baseline dimming, 280 users, 30 mins, no repeats")
-    print(f"\t[5] Constant load, baseline dimming, 280 users, 30 mins, 5 repeats")
+    print(f"\t[5] Constant load, no dimming, 280 users, 30 mins, 5 repeats")
+    print(f"\t[6] Constant load, baseline dimming, 280 users, 30 mins, 5 repeats")
     print(
-        f"\t[6] Constant load, dimming with component weightings, 280 users, 30 mins, 5 repeats"
+        f"\t[7] Constant load, dimming with component weightings, 280 users, 30 mins, 5 repeats"
     )
-    print(f"\t[7] Constant load, dimming with profiling, 280 users, 30 mins, 5 repeats")
-    print(
-        f"\t[8] [TO REMOVE] Constant load, baseline dimming, 280 users, 5 mins, no repeats"
-    )
+    print(f"\t[8] Constant load, dimming with profiling, 280 users, 30 mins, 5 repeats")
     choice = input("\nEnter the number for the experiment you want to run: ")
 
     experiment = Experiment()
@@ -52,7 +50,7 @@ if __name__ == "__main__":
             num_users=280,
             duration="30m",
             iterations=5,
-            dimming_mode=api_client.DIMMING_MODE_DIMMING,
+            dimming_mode=api_client.DIMMING_MODE_DISABLED,
         )
     elif int(choice) == 6:
         experiment = ConstantLoadExperiment(
@@ -61,7 +59,6 @@ if __name__ == "__main__":
             duration="30m",
             iterations=5,
             dimming_mode=api_client.DIMMING_MODE_DIMMING,
-            use_component_weightings=True,
         )
     elif int(choice) == 7:
         experiment = ConstantLoadExperiment(
@@ -69,15 +66,16 @@ if __name__ == "__main__":
             num_users=280,
             duration="30m",
             iterations=5,
-            dimming_mode=api_client.DIMMING_MODE_PROFILING,
+            dimming_mode=api_client.DIMMING_MODE_DIMMING,
+            use_component_weightings=True,
         )
     elif int(choice) == 8:
         experiment = ConstantLoadExperiment(
             config,
             num_users=280,
-            duration="5m",
-            iterations=1,
-            dimming_mode=api_client.DIMMING_MODE_DIMMING,
+            duration="30m",
+            iterations=5,
+            dimming_mode=api_client.DIMMING_MODE_PROFILING,
         )
     else:
         print("Invalid choice entered. Exiting.")
