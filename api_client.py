@@ -8,9 +8,9 @@ DIMMING_MODE_DIMMING = "Dimming"
 DIMMING_MODE_PROFILING = "DimmingWithProfiling"
 
 DEFAULT_COMPONENT_WEIGHTINGS = [
-    {"Path": "/recommender", "Probability": 1},
-    {"Path": "/news", "Probability": 0.13110421609093692},
-    {"Path": "/cart", "Probability": 0.5},
+    {"Path": "/recommender", "Probability": 0.015263},
+    {"Path": "/news", "Probability": 0},
+    {"Path": "/cart", "Probability": 1},
 ]
 
 
