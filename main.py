@@ -19,15 +19,15 @@ if __name__ == "__main__":
     print(f"\nAvailable experiments:")
     print(f"\t[1] Gather data to infer saturation with dimmer is disabled")
     print(f"\t[2] Gather data to infer saturation with baseline dimming")
-    print(f"\t[3] Constant load, baseline dimming, 300 users, 30 mins, no repeats")
-    print(f"\t[4] Flash crowd, baseline dimming, 300 users, 30 mins, no repeats")
-    print(f"\t[5] Constant load, baseline dimming, 300 users, 30 mins, 5 repeats")
+    print(f"\t[3] Constant load, baseline dimming, 280 users, 30 mins, no repeats")
+    print(f"\t[4] Flash crowd, baseline dimming, 280 users, 30 mins, no repeats")
+    print(f"\t[5] Constant load, baseline dimming, 280 users, 30 mins, 5 repeats")
     print(
-        f"\t[6] Constant load, dimming with component weightings, 300 users, 30 mins, 5 repeats"
+        f"\t[6] Constant load, dimming with component weightings, 280 users, 30 mins, 5 repeats"
     )
-    print(f"\t[7] Constant load, dimming with profiling, 300 users, 30 mins, 5 repeats")
+    print(f"\t[7] Constant load, dimming with profiling, 280 users, 30 mins, 5 repeats")
     print(
-        f"\t[8] [TO REMOVE] Constant load, baseline dimming, 300 users, 5 mins, no repeats"
+        f"\t[8] [TO REMOVE] Constant load, baseline dimming, 280 users, 5 mins, no repeats"
     )
     choice = input("\nEnter the number for the experiment you want to run: ")
 
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     elif int(choice) == 3:
         experiment = ConstantLoadExperiment(
             config,
-            num_users=300,
+            num_users=280,
             duration="30m",
             iterations=1,
             dimming_mode=api_client.DIMMING_MODE_DIMMING,
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     elif int(choice) == 5:
         experiment = ConstantLoadExperiment(
             config,
-            num_users=300,
+            num_users=280,
             duration="30m",
             iterations=5,
             dimming_mode=api_client.DIMMING_MODE_DIMMING,
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     elif int(choice) == 6:
         experiment = ConstantLoadExperiment(
             config,
-            num_users=300,
+            num_users=280,
             duration="30m",
             iterations=5,
             dimming_mode=api_client.DIMMING_MODE_DIMMING,
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     elif int(choice) == 7:
         experiment = ConstantLoadExperiment(
             config,
-            num_users=300,
+            num_users=280,
             duration="30m",
             iterations=5,
             dimming_mode=api_client.DIMMING_MODE_PROFILING,
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     elif int(choice) == 8:
         experiment = ConstantLoadExperiment(
             config,
-            num_users=300,
+            num_users=280,
             duration="5m",
             iterations=1,
             dimming_mode=api_client.DIMMING_MODE_DIMMING,
