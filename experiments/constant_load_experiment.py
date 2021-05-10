@@ -45,7 +45,7 @@ class ConstantLoadExperiment(Experiment):
         iteration_metrics = []
 
         iterationBar = bar.ProgressBar(redirect_stdout=True)
-        for _ in iterationBar(range(self.iterations), redirect_stdout=True):
+        for _ in iterationBar(range(self.iterations)):
             iterationBar.update(force=True)
             thread = threading.Thread(
                 target=self.__run, args=(k6_env, iteration_metrics)
