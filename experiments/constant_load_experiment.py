@@ -118,6 +118,8 @@ class ConstantLoadExperiment(Experiment):
                     ]["values"]["count"]
 
                 iteration_metrics.append(metrics)
+                
+            time.sleep(10)
         except Exception as e:
             print(e)
             self.iterationErrorsQueue.put(1)
