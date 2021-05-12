@@ -27,6 +27,7 @@ if __name__ == "__main__":
         f"\t[7] Constant load, dimming with component weightings, 280 users, 30 mins, 5 repeats"
     )
     print(f"\t[8] Constant load, dimming with profiling, 280 users, 30 mins, 5 repeats")
+    print(f"\t[9] [FOR DEBUG] Constant load, dimming with profiling, 280 users, 30 mins, no repeats")
     choice = input("\nEnter the number for the experiment you want to run: ")
 
     experiment = Experiment()
@@ -75,6 +76,14 @@ if __name__ == "__main__":
             num_users=280,
             duration="30m",
             iterations=5,
+            dimming_mode=api_client.DIMMING_MODE_PROFILING,
+        )
+    elif int(choice) == 9:
+        experiment = ConstantLoadExperiment(
+            config,
+            num_users=280,
+            duration="30m",
+            iterations=1,
             dimming_mode=api_client.DIMMING_MODE_PROFILING,
         )
     else:
