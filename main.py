@@ -4,6 +4,7 @@ import api_client
 from config import Config
 from experiments.constant_load_experiment import ConstantLoadExperiment
 from experiments.experiment import Experiment
+from experiments.flash_crowd_experiment import FlashCrowdExperiment
 from experiments.saturation_experiment import SaturationExperiment
 
 if __name__ == "__main__":
@@ -52,7 +53,10 @@ if __name__ == "__main__":
             dimming_mode=api_client.DIMMING_MODE_DIMMING,
         )
     elif int(choice) == 5:
-        raise NotImplementedError()
+        experiment = FlashCrowdExperiment(
+            config,
+            iterations=1,
+        )
     elif int(choice) == 6:
         experiment = ConstantLoadExperiment(
             config,

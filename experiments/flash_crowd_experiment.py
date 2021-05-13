@@ -13,26 +13,18 @@ from experiments.experiment import Experiment
 from helpers import generate_output_path
 
 
-class ConstantLoadExperiment(Experiment):
+class FlashCrowdExperiment(Experiment):
 
     iterationErrorsQueue = queue.Queue(maxsize=1)
 
     def __init__(
         self,
         config: Config,
-        num_users: int,
-        duration: str,
         iterations: int,
-        dimming_mode: str,
-        use_component_weightings: bool = False,
     ):
         super().__init__()
         self.config = config
-        self.num_users = num_users
-        self.duration = duration
         self.iterations = iterations
-        self.dimming_mode = dimming_mode
-        self.use_component_weightings = use_component_weightings
 
     def run(self):
         k6_env = os.environ.copy()
@@ -72,25 +64,24 @@ class ConstantLoadExperiment(Experiment):
                 raise RuntimeError(f"unable to empty cart")
             if not api_client.seed_cart(self.config, 200000).ok:
                 raise RuntimeError(f"unable to seed cart")
-            if not api_client.set_dimming_mode(self.config, self.dimming_mode).ok:
+            if not api_client.set_dimming_mode(
+                self.config, api_client.DIMMING_MODE_DIMMING
+            ).ok:
                 raise RuntimeError(f"unable to set dimming mode")
-
-            if self.use_component_weightings:
-                if not api_client.set_component_weightings(self.config).ok:
-                    raise RuntimeError(f"unable to set component weightings")
-            else:
-                if not api_client.clear_component_weightings(self.config).ok:
-                    raise RuntimeError(f"unable to clear component weightings")
+            if not api_client.clear_component_weightings(self.config).ok:
+                raise RuntimeError(f"unable to clear component weightings")
 
             output_path = generate_output_path(suffix="k6")
 
-            k6_env["MAX_VUS"] = str(self.num_users)
-            k6_env["RAMP_UP_TIME"] = "10s"
-            k6_env["CONSTANT_TIME"] = self.duration
+            k6_env["MIN_VUS"] = str(100)
+            k6_env["MAX_VUS"] = str(280)
+            k6_env["RAMP_TIME"] = "2m"
+            k6_env["PEAK_TIME"] = "2m"
+            k6_env["TROUGH_TIME"] = "2m"
             k6_env["K6_OUTPUT_PATH"] = output_path
 
             k6_process = subprocess.run(
-                ["ulimit -n 8192; k6 run dist/constantLoadExternallyOrchestrated.js"],
+                ["ulimit -n 8192; k6 run dist/flashCrowdExternallyOrchestrated.js"],
                 env=k6_env,
                 cwd=self.config.ABS_LOAD_TESTING_DIRECTORY,
                 capture_output=True,
