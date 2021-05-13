@@ -22,7 +22,7 @@ if __name__ == "__main__":
     print(f"\t[2] Gather data to infer saturation with baseline dimming")
     print(f"\t[3] Constant load, no dimming, 280 users, 30 mins, no repeats")
     print(f"\t[4] Constant load, baseline dimming, 280 users, 30 mins, no repeats")
-    print(f"\t[5] Flash crowd, baseline dimming, 280 users, 12 mins, no repeats")
+    print(f"\t[5] Flash crowd, baseline dimming, 280 users, 18 mins, no repeats")
     print(f"\t[6] Constant load, no dimming, 280 users, 30 mins, 5 repeats")
     print(f"\t[7] Constant load, baseline dimming, 280 users, 30 mins, 5 repeats")
     print(
