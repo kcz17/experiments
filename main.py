@@ -28,7 +28,12 @@ if __name__ == "__main__":
     print(
         f"\t[8] Constant load, dimming with component weightings, 280 users, 30 mins, 5 repeats"
     )
-    print(f"\t[9] Constant load, dimming with profiling, 280 users, 30 mins, 5 repeats")
+    print(
+        f"\t[9] Constant load, dimming with profiling, no component weightings set, 280 users, 30 mins, 5 repeats"
+    )
+    print(
+        f"\t[10] Constant load, dimming with profiling, component weightings set, 280 users, 30 mins, 5 repeats"
+    )
     choice = input("\nEnter the number for the experiment you want to run: ")
 
     experiment = Experiment()
@@ -89,6 +94,15 @@ if __name__ == "__main__":
             duration="30m",
             iterations=5,
             dimming_mode=api_client.DIMMING_MODE_PROFILING,
+        )
+    elif int(choice) == 10:
+        experiment = ConstantLoadExperiment(
+            config,
+            num_users=280,
+            duration="30m",
+            iterations=5,
+            dimming_mode=api_client.DIMMING_MODE_PROFILING,
+            use_component_weightings=True,
         )
     else:
         print("Invalid choice entered. Exiting.")
