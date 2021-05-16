@@ -122,7 +122,6 @@ if __name__ == "__main__":
             duration="30m",
             iterations=1,
             dimming_mode=api_client.DIMMING_MODE_PROFILING,
-            use_component_weightings=True,
             override_all_scenarios="buying",
         )
     else:
