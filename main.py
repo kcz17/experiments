@@ -111,7 +111,7 @@ if __name__ == "__main__":
             config,
             num_users=280,
             duration="30m",
-            iterations=5,
+            iterations=1,
             dimming_mode=api_client.DIMMING_MODE_PROFILING,
             override_all_scenarios="browsing",
         )
@@ -120,7 +120,7 @@ if __name__ == "__main__":
             config,
             num_users=280,
             duration="30m",
-            iterations=5,
+            iterations=1,
             dimming_mode=api_client.DIMMING_MODE_PROFILING,
             use_component_weightings=True,
             override_all_scenarios="buying",
