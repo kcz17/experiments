@@ -25,6 +25,7 @@ class ConstantLoadExperiment(Experiment):
         iterations: int,
         dimming_mode: str,
         use_component_weightings: bool = False,
+        override_all_scenarios: str = "",
     ):
         super().__init__()
         self.config = config
@@ -33,6 +34,7 @@ class ConstantLoadExperiment(Experiment):
         self.iterations = iterations
         self.dimming_mode = dimming_mode
         self.use_component_weightings = use_component_weightings
+        self.override_all_scenarios = override_all_scenarios
 
     def run(self):
         k6_env = os.environ.copy()
@@ -41,6 +43,9 @@ class ConstantLoadExperiment(Experiment):
         k6_env["K6_NO_COOKIES_RESET"] = "true"
         k6_env["K6_HOST"] = self.config.KUBEDIM_HOST
         k6_env["K6_PORT"] = self.config.DIMMER_PORT
+
+        if self.override_all_scenarios != "":
+            k6_env["OVERRIDE_ALL_SCENARIOS"] = self.override_all_scenarios
 
         iteration_metrics = []
 
