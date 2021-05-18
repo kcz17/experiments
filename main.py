@@ -120,7 +120,7 @@ if __name__ == "__main__":
     elif int(choice) == 12:
         experiment = ConstantLoadExperiment(
             config,
-            num_users=280,
+            num_users=160,
             duration="30m",
             iterations=1,
             dimming_mode=api_client.DIMMING_MODE_PROFILING,
