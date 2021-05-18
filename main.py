@@ -6,6 +6,7 @@ from experiments.constant_load_experiment import ConstantLoadExperiment
 from experiments.experiment import Experiment
 from experiments.flash_crowd_experiment import FlashCrowdExperiment
 from experiments.saturation_experiment import SaturationExperiment
+from experiments.sensitivity_testing_experiment import SensitivityTestingExperiment
 
 if __name__ == "__main__":
     config = Config()
@@ -36,6 +37,7 @@ if __name__ == "__main__":
     )
     print(f"\t[11] Profiling edge case, all low")
     print(f"\t[12] Profiling edge case, all high")
+    print(f"\t[13] Component weightings sensitivity testing")
     choice = input("\nEnter the number for the experiment you want to run: ")
 
     experiment = Experiment()
@@ -123,6 +125,11 @@ if __name__ == "__main__":
             iterations=1,
             dimming_mode=api_client.DIMMING_MODE_PROFILING,
             override_all_scenarios="buying",
+        )
+    elif int(choice) == 13:
+        experiment = SensitivityTestingExperiment(
+            config,
+            num_users=280,
         )
     else:
         print("Invalid choice entered. Exiting.")
