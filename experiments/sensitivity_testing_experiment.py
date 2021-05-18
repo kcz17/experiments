@@ -40,9 +40,9 @@ class SensitivityTestingExperiment(Experiment):
         k6_env["K6_PORT"] = self.config.DIMMER_PORT
 
         component_weightings = self.__generate_component_weightings()
-        print(component_weightings)
         iterationBar = bar.ProgressBar(redirect_stdout=True)
-        for weightings in iterationBar(range(component_weightings)):
+        for i in iterationBar(range(len(component_weightings))):
+            weightings = component_weightings[i]
             iterationBar.update(force=True)
             thread = threading.Thread(target=self.__run, args=(k6_env, weightings))
             thread.daemon = True
