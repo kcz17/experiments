@@ -1,6 +1,3 @@
-#group,false,false,true,true,false,false,true,true
-#datatype,string,long,dateTime:RFC3339,dateTime:RFC3339,dateTime:RFC3339,double,string,string
-#default,mean,,,,,,,
 ,result,table,_start,_stop,_time,_value,_field,_measurement
 ,,0,2021-05-11T11:24:41Z,2021-05-11T13:56:58Z,2021-05-11T11:24:41.94988792Z,0,p50,dimmer_response_time
 ,,0,2021-05-11T11:24:41Z,2021-05-11T13:56:58Z,2021-05-11T11:24:42.949922815Z,0,p50,dimmer_response_time
