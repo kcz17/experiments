@@ -42,7 +42,7 @@ class SensitivityTestingExperiment(Experiment):
         component_weightings = self.__generate_component_weightings()
         print(component_weightings)
         iterationBar = bar.ProgressBar(redirect_stdout=True)
-        for _, weightings in iterationBar(range(enumerate(component_weightings))):
+        for weightings in iterationBar(range(component_weightings)):
             iterationBar.update(force=True)
             thread = threading.Thread(target=self.__run, args=(k6_env, weightings))
             thread.daemon = True
@@ -107,7 +107,7 @@ class SensitivityTestingExperiment(Experiment):
                 raise RuntimeError(f"unable to empty cart")
             if not api_client.seed_cart(self.config, 200000).ok:
                 raise RuntimeError(f"unable to seed cart")
-            if not api_client.set_dimming_mode(self.config, self.dimming_mode).ok:
+            if not api_client.set_dimming_mode(self.config, api_client.DIMMING_MODE_DIMMING).ok:
                 raise RuntimeError(f"unable to set dimming mode")
 
             if not api_client.set_component_weightings(self.config, weightings).ok:
