@@ -25,6 +25,7 @@ class ConstantLoadExperiment(Experiment):
         iterations: int,
         dimming_mode: str,
         use_component_weightings: bool = False,
+        component_weightings=api_client.DEFAULT_COMPONENT_WEIGHTINGS,
         override_all_scenarios: str = "",
     ):
         super().__init__()
@@ -34,6 +35,7 @@ class ConstantLoadExperiment(Experiment):
         self.iterations = iterations
         self.dimming_mode = dimming_mode
         self.use_component_weightings = use_component_weightings
+        self.component_weightings = component_weightings
         self.override_all_scenarios = override_all_scenarios
 
     def run(self):
@@ -81,7 +83,9 @@ class ConstantLoadExperiment(Experiment):
                 raise RuntimeError(f"unable to set dimming mode")
 
             if self.use_component_weightings:
-                if not api_client.set_component_weightings(self.config).ok:
+                if not api_client.set_component_weightings(
+                    self.config, weightings=self.component_weightings
+                ).ok:
                     raise RuntimeError(f"unable to set component weightings")
             else:
                 if not api_client.clear_component_weightings(self.config).ok:

@@ -38,6 +38,7 @@ if __name__ == "__main__":
     print(f"\t[11] Profiling edge case, all low")
     print(f"\t[12] Profiling edge case, all high")
     print(f"\t[13] Component weightings sensitivity testing")
+    print(f"\t[14] Online training correctness testing")
     choice = input("\nEnter the number for the experiment you want to run: ")
 
     experiment = Experiment()
@@ -130,6 +131,20 @@ if __name__ == "__main__":
         experiment = SensitivityTestingExperiment(
             config,
             num_users=280,
+        )
+    elif int(choice) == 14:
+        experiment = ConstantLoadExperiment(
+            config,
+            num_users=280,
+            duration="30m",
+            iterations=12,
+            dimming_mode=api_client.DIMMING_MODE_ONLINE_TRAINING,
+            use_component_weightings=True,
+            component_weightings=[
+                {"Path": "/recommender", "Probability": 0.5},
+                {"Path": "/news", "Probability": 0.5},
+                {"Path": "/cart", "Probability": 0.5},
+            ],
         )
     else:
         print("Invalid choice entered. Exiting.")

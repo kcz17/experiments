@@ -6,6 +6,7 @@ from config import Config
 DIMMING_MODE_DISABLED = "Disabled"
 DIMMING_MODE_DIMMING = "Dimming"
 DIMMING_MODE_PROFILING = "DimmingWithProfiling"
+DIMMING_MODE_ONLINE_TRAINING = "DimmingWithOnlineTraining"
 
 DEFAULT_COMPONENT_WEIGHTINGS = [
     {"Path": "/recommender", "Probability": 0.015263},
@@ -52,7 +53,7 @@ def set_dimming_mode(config: Config, mode: str):
     (requests.exceptions.Timeout, requests.exceptions.ConnectionError),
     max_tries=3,
 )
-def set_component_weightings(config: Config, weightings=None):
+def set_component_weightings(config: Config, weightings):
     if weightings is None:
         weightings = DEFAULT_COMPONENT_WEIGHTINGS
     return requests.post(

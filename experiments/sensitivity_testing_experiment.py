@@ -107,7 +107,9 @@ class SensitivityTestingExperiment(Experiment):
                 raise RuntimeError(f"unable to empty cart")
             if not api_client.seed_cart(self.config, 200000).ok:
                 raise RuntimeError(f"unable to seed cart")
-            if not api_client.set_dimming_mode(self.config, api_client.DIMMING_MODE_DIMMING).ok:
+            if not api_client.set_dimming_mode(
+                self.config, api_client.DIMMING_MODE_DIMMING
+            ).ok:
                 raise RuntimeError(f"unable to set dimming mode")
 
             if not api_client.set_component_weightings(self.config, weightings).ok:
