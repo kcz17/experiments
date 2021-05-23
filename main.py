@@ -136,8 +136,8 @@ if __name__ == "__main__":
         experiment = ConstantLoadExperiment(
             config,
             num_users=280,
-            duration="30m",
-            iterations=12,
+            duration="3h",
+            iterations=1,
             dimming_mode=api_client.DIMMING_MODE_ONLINE_TRAINING,
             use_component_weightings=True,
             component_weightings=[
