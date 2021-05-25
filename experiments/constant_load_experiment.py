@@ -73,6 +73,9 @@ class ConstantLoadExperiment(Experiment):
         print("Complete:")
         print(iteration_metrics)
 
+        if not api_client.set_dimming_mode(self.config, api_client.DIMMING_MODE_DIMMING).ok:
+            raise RuntimeError(f"unable to perform final dimming mode reset")
+
     def __run(self, k6_env, iteration_metrics):
         try:
             if not api_client.empty_cart(self.config).ok:
@@ -82,14 +85,14 @@ class ConstantLoadExperiment(Experiment):
             if not api_client.set_dimming_mode(self.config, self.dimming_mode).ok:
                 raise RuntimeError(f"unable to set dimming mode")
 
+            if not api_client.clear_component_weightings(self.config).ok:
+                raise RuntimeError(f"unable to clear component weightings")
+
             if self.use_component_weightings:
                 if not api_client.set_component_weightings(
                     self.config, weightings=self.component_weightings
                 ).ok:
                     raise RuntimeError(f"unable to set component weightings")
-            else:
-                if not api_client.clear_component_weightings(self.config).ok:
-                    raise RuntimeError(f"unable to clear component weightings")
 
             output_path = generate_output_path(suffix="k6")
 
