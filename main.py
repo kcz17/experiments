@@ -135,7 +135,7 @@ if __name__ == "__main__":
     elif int(choice) == 14:
         experiment = ConstantLoadExperiment(
             config,
-            num_users=280,
+            num_users=270,
             duration="3h",
             iterations=1,
             dimming_mode=api_client.DIMMING_MODE_ONLINE_TRAINING,
