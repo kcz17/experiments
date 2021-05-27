@@ -147,7 +147,7 @@ if __name__ == "__main__":
                 {"Path": "/cart", "Probability": 0.5},
             ],
         )
-    elif int(choice) == 14:
+    elif int(choice) == 15:
         experiment = ConstantLoadExperiment(
             config,
             num_users=270,
