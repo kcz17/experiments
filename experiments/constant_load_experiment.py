@@ -27,6 +27,7 @@ class ConstantLoadExperiment(Experiment):
         use_component_weightings: bool = False,
         component_weightings=api_client.DEFAULT_COMPONENT_WEIGHTINGS,
         override_all_scenarios: str = "",
+        online_training_robustness: bool = False,
     ):
         super().__init__()
         self.config = config
@@ -37,6 +38,7 @@ class ConstantLoadExperiment(Experiment):
         self.use_component_weightings = use_component_weightings
         self.component_weightings = component_weightings
         self.override_all_scenarios = override_all_scenarios
+        self.online_training_robustness = online_training_robustness
 
     def run(self):
         k6_env = os.environ.copy()
@@ -101,8 +103,11 @@ class ConstantLoadExperiment(Experiment):
             k6_env["CONSTANT_TIME"] = self.duration
             k6_env["K6_OUTPUT_PATH"] = output_path
 
+            command = "ulimit -n 8192; k6 run dist/constantLoadExternallyOrchestrated.js"
+            if self.online_training_robustness:
+                command = "ulimit -n 8192; k6 run dist/constantLoadSwitchHalfwayExternallyOrchestrated.js"
             k6_process = subprocess.run(
-                ["ulimit -n 8192; k6 run dist/constantLoadExternallyOrchestrated.js"],
+                [command],
                 env=k6_env,
                 cwd=self.config.ABS_LOAD_TESTING_DIRECTORY,
                 capture_output=True,
