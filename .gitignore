@@ -1,5 +1,4 @@
 *.iml
-.ipynb_checkpoints/
-misc/.ipynb_checkpoints/
-out/*
-__pycache__
+**/.ipynb_checkpoints/
+**/out/*
+**/__pycache__
